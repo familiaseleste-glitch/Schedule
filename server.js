@@ -138,9 +138,16 @@ const readBody = (req) => new Promise((resolve, reject) => {
 });
 
 const getFilePath = (url) => {
-  const cleanUrl = url === "/" ? "/index.html" : url;
-  const safePath = path.normalize(cleanUrl).replace(/^\.+/, "");
-  return path.join(PUBLIC_DIR, safePath);
+  const rawUrl = url.split("?")[0].split("#")[0];
+  const cleanUrl = rawUrl === "/" ? "/index.html" : rawUrl;
+  const normalizedPath = path.posix.normalize(cleanUrl);
+  const safePath = normalizedPath.replace(/^(\.\.(\/|\\|$))+/, "");
+  const resolvedPath = path.resolve(PUBLIC_DIR, `.${safePath}`);
+  const publicRoot = `${PUBLIC_DIR}${path.sep}`;
+  if (resolvedPath !== PUBLIC_DIR && !resolvedPath.startsWith(publicRoot)) {
+    return null;
+  }
+  return resolvedPath;
 };
 
 const mimeTypes = {
@@ -190,6 +197,11 @@ const server = http.createServer(async (req, res) => {
     }
 
     const filePath = getFilePath(req.url);
+    if (!filePath) {
+      res.writeHead(403, { "Content-Type": "text/plain" });
+      res.end("Acesso negado");
+      return;
+    }
     const fileExt = path.extname(filePath);
     const contentType = mimeTypes[fileExt] || "text/plain";
     const file = await fs.readFile(filePath);

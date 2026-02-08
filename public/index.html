@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulse - Rotina IA para Adolescentes</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body class="light">
+  <header class="hero">
+    <nav class="nav">
+      <div class="logo">Pulse IA</div>
+      <div class="nav-actions">
+        <button class="ghost" id="themeToggle" aria-label="Alternar tema">🌗</button>
+        <button class="primary" id="generateRoutineTop">Gerar rotina de hoje</button>
+      </div>
+    </nav>
+    <div class="hero-content">
+      <div>
+        <span class="badge">IA segura para adolescentes</span>
+        <h1>Rotinas inteligentes para crescer com saúde, estética e equilíbrio.</h1>
+        <p>
+          Crie treinos de calistenia, plano alimentar, skin care e organização diária totalmente
+          personalizados. Simples, seguro e adaptativo.
+        </p>
+        <div class="hero-buttons">
+          <button class="primary" id="startNow">Começar agora</button>
+          <button class="secondary" id="loadProfile">Carregar perfil salvo</button>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>O que a IA faz</h3>
+        <ul>
+          <li>Adapta intensidade pela idade e nível físico</li>
+          <li>Evita práticas perigosas e dietas restritivas</li>
+          <li>Evolui sua rotina semanalmente</li>
+        </ul>
+        <div class="mini-stats">
+          <div>
+            <strong>100%</strong>
+            <span>personalizado</span>
+          </div>
+          <div>
+            <strong>4</strong>
+            <span>rotinas essenciais</span>
+          </div>
+          <div>
+            <strong>7</strong>
+            <span>dias de progresso</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="profile">
+      <div class="section-header">
+        <h2>Perfil do usuário</h2>
+        <p>Conte para a IA quem você é e quais objetivos quer alcançar.</p>
+      </div>
+      <form id="profileForm" class="form-grid">
+        <div class="field">
+          <label for="name">Nome do perfil</label>
+          <input id="name" name="name" type="text" placeholder="Ex: Ana" required />
+        </div>
+        <div class="field">
+          <label for="age">Idade</label>
+          <input id="age" name="age" type="number" min="12" max="19" placeholder="15" required />
+        </div>
+        <div class="field">
+          <label for="height">Altura (cm)</label>
+          <input id="height" name="height" type="number" min="130" max="200" placeholder="165" required />
+        </div>
+        <div class="field">
+          <label for="weight">Peso (kg)</label>
+          <input id="weight" name="weight" type="number" min="35" max="120" placeholder="55" required />
+        </div>
+        <div class="field">
+          <label for="gender">Sexo</label>
+          <select id="gender" name="gender">
+            <option value="feminino">Feminino</option>
+            <option value="masculino">Masculino</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fitnessLevel">Nível físico</label>
+          <select id="fitnessLevel" name="fitnessLevel">
+            <option value="iniciante">Iniciante</option>
+            <option value="intermediario">Intermediário</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="hairType">Tipo de cabelo</label>
+          <input id="hairType" name="hairType" type="text" placeholder="Cacheado, liso..." />
+        </div>
+        <div class="field">
+          <label for="skinType">Tipo de pele</label>
+          <select id="skinType" name="skinType">
+            <option value="oleosa">Oleosa</option>
+            <option value="mista">Mista</option>
+            <option value="seca">Seca</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="goals">Objetivos</label>
+          <select id="goals" name="goals">
+            <option value="perda de gordura">Perda de gordura</option>
+            <option value="ganho de massa">Ganho de massa</option>
+            <option value="estetica">Estética</option>
+            <option value="saude">Saúde</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="timeAvailable">Tempo disponível (min/dia)</label>
+          <input id="timeAvailable" name="timeAvailable" type="number" min="15" max="90" placeholder="30" />
+        </div>
+        <div class="field full">
+          <label for="restrictions">Restrições / Equipamentos disponíveis</label>
+          <textarea id="restrictions" name="restrictions" rows="3" placeholder="Alergias, sem barras, etc."></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="primary">Salvar e gerar rotina</button>
+          <button type="button" class="secondary" id="saveProfile">Salvar perfil</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="section" id="dashboard">
+      <div class="section-header">
+        <h2>Dashboard</h2>
+        <p>Rotina diária personalizada com progresso semanal e ajustes de IA.</p>
+      </div>
+      <div class="dashboard">
+        <div class="dashboard-header">
+          <div>
+            <h3>Progresso semanal</h3>
+            <p class="muted">Constância é mais importante que intensidade.</p>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+            <span id="progressText">0%</span>
+          </div>
+        </div>
+        <div class="cards">
+          <article class="card" id="cardCalisthenics">
+            <header>
+              <h4>Calistenia</h4>
+              <span class="tag">Seguro + progressivo</span>
+            </header>
+            <div class="card-body"></div>
+          </article>
+          <article class="card" id="cardNutrition">
+            <header>
+              <h4>Plano alimentar</h4>
+              <span class="tag">Simples e acessível</span>
+            </header>
+            <div class="card-body"></div>
+          </article>
+          <article class="card" id="cardSkincare">
+            <header>
+              <h4>Skin care</h4>
+              <span class="tag">Manhã e noite</span>
+            </header>
+            <div class="card-body"></div>
+          </article>
+          <article class="card" id="cardOrganization">
+            <header>
+              <h4>Organização diária</h4>
+              <span class="tag">Foco e equilíbrio</span>
+            </header>
+            <div class="card-body"></div>
+          </article>
+        </div>
+        <div class="dashboard-actions">
+          <button class="primary" id="generateRoutine">Gerar rotina de hoje</button>
+          <button class="ghost" id="exportPdf">Exportar em PDF</button>
+        </div>
+        <div class="feedback">
+          <h4>Como foi a rotina?</h4>
+          <div class="feedback-buttons">
+            <button class="ghost" data-feedback="facil">Foi fácil</button>
+            <button class="ghost" data-feedback="medio">Foi médio</button>
+            <button class="ghost" data-feedback="dificil">Foi difícil</button>
+          </div>
+          <p class="muted" id="feedbackMessage">A IA ajusta a próxima rotina com base no seu feedback.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <strong>Pulse IA</strong>
+      <p>Rotinas seguras, simples e feitas para adolescentes.</p>
+    </div>
+    <div>
+      <p class="muted">Suporte: suporte@pulseia.app</p>
+      <p class="muted">Modo claro/escuro disponível</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
